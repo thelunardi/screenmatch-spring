@@ -1,5 +1,7 @@
 package br.com.alura.screenmatch;
 
+import br.com.alura.screenmatch.service.ConsumoAPI;
+import br.com.alura.screenmatch.util.EnvUtil;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +15,12 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("First one");
+		String apiKey = EnvUtil.getApiKey();
+		var consumoAPI = new ConsumoAPI();
+
+		var endereco = "https://www.omdbapi.com/?t=gilmore+girls&apikey=" + apiKey;
+		var json = consumoAPI.obterDados(endereco);
+
+		System.out.println(json);
 	}
 }
