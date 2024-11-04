@@ -58,30 +58,46 @@ public class Principal {
                 // .toList() imutável
                 .collect(Collectors.toList());
 
-        System.out.println("\nTop 10 episódios: ");
-        var top5 = dadosEpisodios
+//        System.out.println("\nTop 10 episódios: ");
+//        var top5 = dadosEpisodios
+//                .stream()
+//                .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
+//                .peek(e -> System.out.println("Primeiro filtro N/A: " + e))
+//                .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
+//                .peek(e -> System.out.println("Ordenação: " + e))
+//                .limit(10)
+//                .peek(e -> System.out.println("Limit: " + e))
+//                .map(e -> e.titulo().toUpperCase())
+//                .peek(e -> System.out.println("Map: " + e));
+//        top5.forEach(System.out::println);
+//        System.out.println("\n\n");
+
+        List<Episodio> episodios = dadosTemporadas
                 .stream()
-                .filter(e -> !e.avaliacao().equalsIgnoreCase("N/A"))
-                .peek(e -> System.out.println("Primeiro filtro N/A: " + e))
-                .sorted(Comparator.comparing(DadosEpisodio::avaliacao).reversed())
-                .peek(e -> System.out.println("Ordenação: " + e))
-                .limit(10)
-                .peek(e -> System.out.println("Limit: " + e))
-                .map(e -> e.titulo().toUpperCase())
-                .peek(e -> System.out.println("Map: " + e));
-        top5.forEach(System.out::println);
+                .flatMap(t -> t.episodios().stream()
+                        .map(e -> new Episodio(t.numero(), e)))
+//                .sorted(Comparator.comparing(Episodio::getAvaliacao).reversed())
+//                .limit(5)
+                .collect(Collectors.toList());
+
+        episodios.forEach(System.out::println);
         System.out.println("\n\n");
 
-//        List<Episodio> episodios = dadosTemporadas
-//                .stream()
-//                .flatMap(t -> t.episodios().stream()
-//                        .map(e -> new Episodio(t.numero(), e)))
-////                .sorted(Comparator.comparing(Episodio::getAvaliacao).reversed())
-////                .limit(5)
-//                .collect(Collectors.toList());
-//
-//        episodios.forEach(System.out::println);
-//        System.out.println("\n\n");
+        System.out.println("Informe um trecho do nome do episodio");
+        var trechoDoTitulo = scanner.nextLine();
+
+        var episodio = episodios.stream()
+                .filter(e -> e.getTitulo().toUpperCase().contains(trechoDoTitulo.toUpperCase()))
+                .findFirst();
+
+        if (episodio.isPresent()) {
+            System.out.println("Episódio encontrado: ");
+            System.out.println(episodio.get().getTitulo());
+            System.out.println("Temporada: ");
+            System.out.println(episodio.get().getTemporada());
+        } else {
+            System.out.println("Episódio não encontrado");
+        }
 //
 //        System.out.println("Informe o ano:");
 //        var ano = scanner.nextInt();
