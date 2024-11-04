@@ -10,10 +10,7 @@ import br.com.alura.screenmatch.util.EnvUtil;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Principal {
@@ -83,21 +80,27 @@ public class Principal {
         episodios.forEach(System.out::println);
         System.out.println("\n\n");
 
-        System.out.println("Informe um trecho do nome do episodio");
-        var trechoDoTitulo = scanner.nextLine();
+        Map<Integer, Double> avaliacaoPorTemporada = episodios.stream()
+                .filter(e -> e.getAvaliacao() > 0.0)
+                .collect(Collectors.groupingBy(Episodio::getTemporada, Collectors.averagingDouble(Episodio::getAvaliacao)));
 
-        var episodio = episodios.stream()
-                .filter(e -> e.getTitulo().toUpperCase().contains(trechoDoTitulo.toUpperCase()))
-                .findFirst();
+        System.out.println(avaliacaoPorTemporada);
 
-        if (episodio.isPresent()) {
-            System.out.println("Episódio encontrado: ");
-            System.out.println(episodio.get().getTitulo());
-            System.out.println("Temporada: ");
-            System.out.println(episodio.get().getTemporada());
-        } else {
-            System.out.println("Episódio não encontrado");
-        }
+//        System.out.println("Informe um trecho do nome do episodio");
+//        var trechoDoTitulo = scanner.nextLine();
+//
+//        var episodio = episodios.stream()
+//                .filter(e -> e.getTitulo().toUpperCase().contains(trechoDoTitulo.toUpperCase()))
+//                .findFirst();
+//
+//        if (episodio.isPresent()) {
+//            System.out.println("Episódio encontrado: ");
+//            System.out.println(episodio.get().getTitulo());
+//            System.out.println("Temporada: ");
+//            System.out.println(episodio.get().getTemporada());
+//        } else {
+//            System.out.println("Episódio não encontrado");
+//        }
 //
 //        System.out.println("Informe o ano:");
 //        var ano = scanner.nextInt();
