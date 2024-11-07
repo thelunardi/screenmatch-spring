@@ -17,4 +17,14 @@ public final class EnvUtil {
             throw new RuntimeException(e);
         }
     }
+
+    public static String getOpenAiKey() {
+        var envFile = Paths.get(".env");
+        try (var inputStream = Files.newInputStream(envFile)) {
+            props.load(inputStream);
+            return props.get("OPEN_AI_KEY").toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
