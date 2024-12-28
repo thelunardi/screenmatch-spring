@@ -71,6 +71,7 @@ public class Principal {
                 .forEach(System.out::println);
 
         // var gepeteco = ConsultaChatGPT.obterTraducao("give your jumps");
+        // System.out.println(gepeteco);
     }
 
     private DadosSerie getDadosSerie() {
